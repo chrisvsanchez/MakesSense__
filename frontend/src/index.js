@@ -1,7 +1,7 @@
 // stable Card Elements
 let outerCardDiv = document.querySelector(".outer")
 let outerCard = document.querySelector(".card-outer")
-
+let gifDiv = document.querySelector(".gifDiv")
 fetch(`http://localhost:3000/decks`)
 .then(r => r.json())
 .then((decksArray) =>{
@@ -10,6 +10,10 @@ fetch(`http://localhost:3000/decks`)
         turnToDeck(deck)
     });
 })
+
+
+
+
 
 let turnToDeck = (deck) => {
     
@@ -52,7 +56,7 @@ let turnToDeck = (deck) => {
     
 let turnToInputCard = (cardInfo) => {
     outerCardDiv.innerText = ""
-    
+     
     let frontDiv1 = document.createElement("div")
     frontDiv1.className = "card-box"
 
@@ -94,7 +98,44 @@ let turnToInputCard = (cardInfo) => {
             evt.preventDefault()
        
             let userAnswer = evt.target.answer.value
+            // How to obtain the exact card object to update answer 
+            // check answer 
+            cardInfo.answer = userAnswer
+            fetch(`http://localhost:3000/cards/${cardInfo.id}`, {
+                method: "PATCH",
+                headers:{
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    answer: cardInfo.answer
+                })
+            }).then(r => r.json())
+            .then((updatedAnswer) =>{
+                console.log(updatedAnswer)
+                    turnToBackCard(updatedAnswer.card)
             
+                
+            })
         })
+
+        let turnToBackCard = (updatedAnswer) => {
+            backDiv.innerHTML = ""
+        // let backDiv = document.createElement("div")
+        // backDiv.className = "card-box-back"
+    
+        let backTitle = document.createElement("h2")
+        backTitle.innerText = "Answer Submitted"
+        
+        let newP = document.createElement("p")
+        newP.innerText = updatedAnswer.answer
+        newP.style.fontSize = "18px"
+        newP.style.color = "#00c2cb"
+
+        let nextCardButton = document.createElement("button")
+        nextCardButton.className = "nextCardButton"
+        nextCardButton.innerText = "Next Card"
+        backDiv.append(backTitle, newP, nextCardButton)
+        }
     }
 }
+
