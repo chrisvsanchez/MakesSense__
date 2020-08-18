@@ -2,14 +2,104 @@
 let outerCardDiv = document.querySelector(".outer")
 let outerCard = document.querySelector(".card-outer")
 let gifDiv = document.querySelector(".gifDiv")
-fetch(`http://localhost:3000/decks`)
-.then(r => r.json())
-.then((decksArray) =>{
+let loginFormDiv = document.querySelector(".login-form")
+let logOutNav = document.querySelector(".logout")
+// fetch(`http://localhost:3000/decks`)
+// .then(r => r.json())
+// .then((decksArray) =>{
 
-    decksArray.forEach(deck => {
-        turnToDeck(deck)
-    });
-})
+//     decksArray.forEach(deck => {
+//         turnToDeck(deck)
+//     });
+// })
+
+let createLoginForm = () => {
+    //  outerCardDiv.innerHTML = ""
+    let loginForm = document.createElement("form")
+    loginForm.className = 'center'
+
+    let usernameDiv = document.createElement("div")
+    usernameDiv.className = "form-group"
+
+    let usernameLabel = document.createElement("label")
+    usernameLabel.htmlFor = "username"
+    usernameLabel.innerText = "Username"
+
+    let usernameInput = document.createElement("input")
+    usernameInput.type = "text"
+    usernameInput.className = "form-control"
+    usernameInput.id = "username"
+    usernameInput.placeholder = "Enter Username"
+    usernameInput.autocomplete = "off"
+
+    usernameDiv.append(usernameLabel,usernameInput)
+
+    let submitButton = document.createElement("button")
+    submitButton.type = "Submit"
+    submitButton.className = "btn-btn-primary"
+    submitButton.innerText = "Login"
+    
+    loginForm.append(usernameDiv,submitButton)
+    outerCardDiv.append(loginForm)
+    loginForm.addEventListener("submit", handleLoginForm)
+    
+
+}
+
+let handleLoginForm = (evt) => {
+    evt.preventDefault()
+    let username = evt.target.username.value
+
+    fetch('http://localhost:3000/users/login', {
+        method: "POST",
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            usernameInput: username
+        })
+    })
+    .then(res => res.json())
+    .then((response)=> {
+       
+        if (response.id) {
+            outerCardDiv.innerHTML = ""
+            setSideBar(response)
+            response.decks.forEach(deck => {
+                turnToDeck(deck)
+                })
+           
+        } else {
+            console.log(response)
+        }
+    })
+}
+
+
+
+let setSideBar = (user) => {
+    loginFormDiv.innerHTML = ""
+    let logOutDiv = document.createElement("div")
+    let teacherUsername = document.createElement("p")
+        teacherUsername.className = "font-weight-bold text-center"
+        teacherUsername.innerText = `Logged in as ${user.username}`
+    let logOutButton = document.createElement("button")
+        logOutButton.className = "btn btn-danger"
+        logOutButton.innerText = "Logout"
+        logOutButton.style.color = "black"
+      
+    logOutDiv.append(teacherUsername, logOutButton)
+    logOutNav.append(logOutDiv)
+    logOutButton.addEventListener("click", (evt) => {
+        logOut()
+    })
+}
+let logOut = () => {
+    createLoginForm()
+    outerCardDiv.innerHTML = ""
+    
+}
+
 
 
 
@@ -139,3 +229,6 @@ let turnToInputCard = (cardInfo) => {
     }
 }
 
+
+
+createLoginForm()
