@@ -2,18 +2,6 @@
     margin: 0;
 }
 
-/* NAV-BAR */
-.nav-bar {
-    height: 50px;
-    width: 100%;
-  
-    font-family: 'Roboto', sans-serif;
-    color: #ADD9D0;
-    font-size: 20px;
-    padding-left: 12px;
-
-    
-}
 .outer {
     display:flex;
     justify-content: space-evenly;
@@ -81,25 +69,82 @@
       height: 3em;
   }
 
-  /* Form to create deck */
-  .create-deck{
-      background-color: #E25B45;
-      color:white;
-      padding: 15px;
-      margin-top: 12px;
-      border: 6px solid #ADD9D0;
-      border-radius: 8px;
-      width: 60%;
-      margin-left: 23%;
-  
+  .deckButton{
+    margin-top: 110%;
+    width: 70%;
+    border-radius: 8px;
+    background-color: #E25B45;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
   }
-/* Space on top of form */
- .create {
-     margin-top: 12px;
-    
- }
-/* Form */
-.row {
-   padding-right: 12px;
-}
+  .card-outer {
+    display:flex;
+    flex-direction: column;
+    /* align-content: center;
+    justify-content: space-evenly; */
+    /* flex-flow: column wrap; */
+  }
+  /* This is for input card that belong to deck chosen */
+  .card-box {
+    background-color: transparent;
+    width: 600px;
+    height: 300px;
+    border: 1px solid #f1f1f1;
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+    justify-content: center;
+    flex-flow: column wrap;
+  }
   
+  /* This container is needed to position the front and back side */
+  .card-box-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.9s;
+    transform-style: preserve-3d;
+    
+  }
+  
+  /* Do an horizontal card when you move the mouse over the card box container */
+  .card-box:hover .card-box-inner {
+    transform: rotateY(180deg);
+  }
+  
+  /* Position the front and back side */
+  .card-box-front, .card-box-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 8px;
+    letter-spacing: 0.05em;
+  }
+  
+  /* Style the front side */
+  .card-box-front {
+    background-color: #ADD9D0;
+    color: white;
+  }
+  
+  /* Style the back side */
+  .card-box-back {
+    background-color: #75A38D;
+    color: white;
+    transform: rotateY(180deg);
+  }
+  .submitButton{
+        /* margin-top: 50%; */
+        height:30%;
+        width: 30%;
+        border-radius: 8px;
+        background-color: #E25B45;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
+      }
+.textInput{
+  color:black;
+  font-size: 16px;
+}
