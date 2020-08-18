@@ -49,23 +49,22 @@ let turnToDeck = (deck) => {
             turnToInputCard(card)
         });
     })
-}
-
+    
 let turnToInputCard = (cardInfo) => {
     outerCardDiv.innerText = ""
-
+    
     let frontDiv1 = document.createElement("div")
     frontDiv1.className = "card-box"
 
     let frontDiv2 = document.createElement("div")
     frontDiv2.className = "card-box-inner"
-
+    
     let frontDiv3 = document.createElement("div")
     frontDiv3.className = "card-box-front"
 
     let frontTitle = document.createElement("h2")
     frontTitle.innerText = cardInfo.question
-
+    
     let subject = document.createElement("h4")
     subject.innerText = cardInfo.instruction
     subject.style.color = "grey"
@@ -75,21 +74,27 @@ let turnToInputCard = (cardInfo) => {
     backDiv.className = "card-box-back"
 
     let inputForm = document.createElement("form")
-        inputForm.innerHTML = `<form id="myForm" >
-       <br>
-        <textarea class="textInput" rows="6" cols="60" name="comment" form="usrform">
-Enter text here...</textarea><br>
-        <input type="submit" class="submitButton" value="Submit">
-      </form>`
-
-    let backTitle = document.createElement("h2")
-    backTitle.innerText = "Answer"
-
-    // backDiv.append(backTitle)
-    frontDiv3.append(frontTitle, subject)
-    backDiv.append(backTitle, inputForm)
-   frontDiv2.append(frontDiv3,backDiv )
-    frontDiv1.append(frontDiv2)
-    outerCard.append(frontDiv1)
-    // outerCardDiv.append(out)
+        inputForm.innerHTML = `
+        <textarea class="textInput" rows="6" cols="60" name="answer" id="answerInput">
+        Enter text here...</textarea><br>
+        <input type="submit" class="submitButton" value="Submit">`
+        
+        let backTitle = document.createElement("h2")
+        backTitle.innerText = "Answer"
+        
+        // backDiv.append(backTitle)
+        frontDiv3.append(frontTitle, subject)
+        backDiv.append(backTitle, inputForm)
+        frontDiv2.append(frontDiv3,backDiv )
+        frontDiv1.append(frontDiv2)
+        outerCard.append(frontDiv1)
+        // outerCardDiv.append(out)
+        
+        inputForm.addEventListener("submit", (evt)=> {
+            evt.preventDefault()
+       
+            let userAnswer = evt.target.answer.value
+            
+        })
+    }
 }
