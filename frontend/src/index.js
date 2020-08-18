@@ -4,6 +4,7 @@ let outerCard = document.querySelector(".card-outer")
 let gifDiv = document.querySelector(".gifDiv")
 let loginFormDiv = document.querySelector(".login-form")
 let logOutNav = document.querySelector(".logout")
+let createDeckForm = document.querySelector(".create-deck-form")
 // fetch(`http://localhost:3000/decks`)
 // .then(r => r.json())
 // .then((decksArray) =>{
@@ -12,6 +13,8 @@ let logOutNav = document.querySelector(".logout")
 //         turnToDeck(deck)
 //     });
 // })
+
+// Login Form
 
 let createLoginForm = () => {
     //  outerCardDiv.innerHTML = ""
@@ -38,6 +41,8 @@ let createLoginForm = () => {
     submitButton.type = "Submit"
     submitButton.className = "btn-btn-primary"
     submitButton.innerText = "Login"
+
+
     
     loginForm.append(usernameDiv,submitButton)
     outerCardDiv.append(loginForm)
@@ -46,6 +51,7 @@ let createLoginForm = () => {
 
 }
 
+// verify if login is valid, shows valid info associated with user
 let handleLoginForm = (evt) => {
     evt.preventDefault()
     let username = evt.target.username.value
@@ -68,6 +74,35 @@ let handleLoginForm = (evt) => {
             response.decks.forEach(deck => {
                 turnToDeck(deck)
                 })
+                createBlankForm.addEventListener("submit", (evt)=> {
+            
+                    let userSubject = evt.target.deckSubjectInput.value
+                    let userTitle = evt.target.deckTitleInput.value
+          
+                    evt.preventDefault()
+                    fetch('http://localhost:3000/decks', {
+                        method: "POST",
+                        headers: {
+                            "content-type": 'application/json'
+                        },
+                        body: JSON.stringify({
+                            title: userTitle,
+                            subject: userSubject,
+                            user: response.id
+        
+        
+                        })
+                    })
+                    .then(res => res.json())
+                    .then((newDeck)=>{
+                        debugger
+                        turnToDeck(newDeck)
+        
+                        // evt.target.reset()
+                    })
+                 })
+                
+                
            
         } else {
             console.log(response)
@@ -75,35 +110,79 @@ let handleLoginForm = (evt) => {
     })
 }
 
-
-
+// logout function
 let setSideBar = (user) => {
     loginFormDiv.innerHTML = ""
     let logOutDiv = document.createElement("div")
-    let teacherUsername = document.createElement("p")
-        teacherUsername.className = "font-weight-bold text-center"
-        teacherUsername.innerText = `Logged in as ${user.username}`
+    let userUsername = document.createElement("p")
+        userUsername.className = "font-weight-bold text-center"
+        userUsername.innerText = `Logged in as ${user.username}`
+    
     let logOutButton = document.createElement("button")
         logOutButton.className = "btn btn-danger"
         logOutButton.innerText = "Logout"
-        logOutButton.style.color = "black"
+
       
-    logOutDiv.append(teacherUsername, logOutButton)
+     
+    //a button to create a deck
+    let createDeckButton = document.createElement("button")
+    createDeckButton.className = "btn btn-danger"
+    createDeckButton.innerText = "Create a Deck"
+
+
+   
+   
+   
+    logOutDiv.append(userUsername, logOutButton, createDeckButton)
     logOutNav.append(logOutDiv)
     logOutButton.addEventListener("click", (evt) => {
         logOut()
     })
-}
-let logOut = () => {
-    createLoginForm()
-    outerCardDiv.innerHTML = ""
-    
+    createDeckButton.addEventListener("click", (evt) => {
+        createNewForm()
+    })
 }
 
 
+    let logOut = () => {
+        logOutNav.innerHTML= ""
+        outerCardDiv.innerHTML = ""
+        createLoginForm()
+}
+
+    let createNewForm = () => {
+        let createBlankForm = document.createElement("form")
+        createBlankForm.className = "createBlankForm"
+
+        let deckTitle = document.createElement("input")
+        deckTitle.type = "text"
+        deckTitle.className = "form-control"
+        deckTitle.id = "deckTitleInput"
+        deckTitle.placeholder = "Enter Title"
+        deckTitle.autocomplete = "off"
+
+        let deckSubject = document.createElement("input")
+        deckSubject.type = "text"
+        deckSubject.className = "form-control"
+        deckSubject.id = "deckSubjectInput"
+        deckSubject.placeholder = "Enter Subject"
+        deckSubject.autocomplete = "off"
+
+        let submitDeckButton = document.createElement("button")
+        submitDeckButton.className = "btn btn-danger"
+        submitDeckButton.innerText = "Submit a Deck"
+
+        createBlankForm.append(deckTitle,deckSubject,submitDeckButton)
+        createDeckForm.append(createBlankForm)
+
+       
+
+     }
 
 
 
+
+// creating and showing deck to screen
 
 let turnToDeck = (deck) => {
     
@@ -144,6 +223,7 @@ let turnToDeck = (deck) => {
         });
     })
     
+
 let turnToInputCard = (cardInfo) => {
     outerCardDiv.innerText = ""
      
