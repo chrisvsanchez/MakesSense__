@@ -5,7 +5,7 @@ let gifDiv = document.querySelector(".gifDiv")
 let loginFormDiv = document.querySelector(".login-form")
 let logOutNav = document.querySelector(".logout")
 let createDeckForm = document.querySelector(".create-deck-form")
-
+let currentUser = 0
 // Login Form
 let createLoginForm = () => {
     //  outerCardDiv.innerHTML = ""
@@ -54,8 +54,8 @@ let handleLoginForm = (evt) => {
     })
     .then(res => res.json())
     .then((response)=> {
-        var currentUser = response.id
         if (response.id) {
+             currentUser = response.id
             outerCardDiv.innerHTML = ""
             setSideBar(response)
             response.decks.forEach(deck => {
@@ -84,9 +84,6 @@ let handleLoginForm = (evt) => {
         let createDeckButton = document.createElement("button")
         createDeckButton.className = "btn btn-danger"
         createDeckButton.innerText = "Create a Deck"
-       
-
-
 
         logOutDiv.append(userUsername, logOutButton, createDeckButton)
         logOutNav.append(logOutDiv)
@@ -134,7 +131,7 @@ let handleLoginForm = (evt) => {
             evt.preventDefault()
             let userSubject = evt.target.deckSubjectInput.value
             let userTitle = evt.target.deckTitleInput.value
-    
+            console.log(currentUser)
             fetch('http://localhost:3000/decks', {
                 method: "POST",
                 headers: {
@@ -143,7 +140,7 @@ let handleLoginForm = (evt) => {
                 body: JSON.stringify({
                     title: userTitle,
                     subject: userSubject,
-                
+                    user_id: currentUser 
                 }) 
             })
             .then(res => res.json())
