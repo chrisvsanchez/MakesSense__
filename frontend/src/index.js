@@ -5,7 +5,7 @@ let gifDiv = document.querySelector(".gifDiv")
 let loginFormDiv = document.querySelector(".login-form")
 let logOutNav = document.querySelector(".logout")
 let createDeckForm = document.querySelector(".create-deck-form")
-let currentUser = 0
+
 // Login Form
 let createLoginForm = () => {
     //  outerCardDiv.innerHTML = ""
@@ -54,7 +54,7 @@ let handleLoginForm = (evt) => {
     })
     .then(res => res.json())
     .then((response)=> {
-        let currentUser = response.id
+        var currentUser = response.id
         if (response.id) {
             outerCardDiv.innerHTML = ""
             setSideBar(response)
@@ -84,7 +84,7 @@ let handleLoginForm = (evt) => {
         let createDeckButton = document.createElement("button")
         createDeckButton.className = "btn btn-danger"
         createDeckButton.innerText = "Create a Deck"
-        createDeckButton.dataset.id = user.id
+       
 
 
 
@@ -130,7 +130,6 @@ let handleLoginForm = (evt) => {
         createDeckForm.append(createBlankForm)
         
         createBlankForm.addEventListener("submit", (evt)=> {
-            debugger
             evt.preventDefault()
             let userSubject = evt.target.deckSubjectInput.value
             let userTitle = evt.target.deckTitleInput.value
@@ -143,7 +142,7 @@ let handleLoginForm = (evt) => {
                 body: JSON.stringify({
                     title: userTitle,
                     subject: userSubject,
-                    user: currentUser
+                
                 }) 
             })
             .then(res => res.json())
@@ -182,12 +181,15 @@ let handleLoginForm = (evt) => {
         let backTitle = document.createElement("h2")
         backTitle.innerText = "Additional Info"
         
+        let createDeleteButton = document.createElement("button")
+        createDeleteButton.innerText ="❌"
+
         let openCardsButton = document.createElement("button")
         openCardsButton.innerText = "Let's get started!"
         openCardsButton.className = "deckButton"
         // backDiv.append(backTitle)
         frontDiv3.append(frontTitle, subject)
-        backDiv.append(backTitle, openCardsButton)
+        backDiv.append(backTitle, openCardsButton, createDeleteButton)
         frontDiv2.append(frontDiv3,backDiv )
         frontDiv1.append(frontDiv2)
         outerCardDiv.append(frontDiv1)
@@ -197,6 +199,16 @@ let handleLoginForm = (evt) => {
                 turnToInputCard(card)
             });
         })
+            createDeleteButton.addEventListener("click", () => {
+                console.log(deck.id)
+                fetch(`http://localhost:3000/decks/${deck.id}`,{
+                    method: "DELETE"
+                    })
+                    .then(r => r.json())
+                    .then((deletedObj) => {
+                        frontDiv2.remove()
+                    })
+            })
         
         let turnToInputCard = (cardInfo) => {
             outerCardDiv.innerText = ""
@@ -212,12 +224,18 @@ let handleLoginForm = (evt) => {
             
             let frontTitle = document.createElement("h2")
             frontTitle.innerText = cardInfo.question
-            
+
+            let deleteCardButton = document.createElement("button")
+            deleteCardButton.innerText ="❌"
+
             let subject = document.createElement("h4")
             subject.innerText = cardInfo.instruction
             subject.style.color = "grey"
             subject.style.fontSize = "20px"
             
+            // let deleteButton = document.createElement("button")
+            // deleteButton.innerText = "Delete"
+
             let backDiv = document.createElement("div")
             backDiv.className = "card-box-back"
             
@@ -232,7 +250,7 @@ let handleLoginForm = (evt) => {
             
             // backDiv.append(backTitle)
             frontDiv3.append(frontTitle, subject)
-            backDiv.append(backTitle, inputForm)
+            backDiv.append(backTitle, inputForm, deleteCardButton)
             frontDiv2.append(frontDiv3,backDiv )
             frontDiv1.append(frontDiv2)
             outerCard.append(frontDiv1)
@@ -258,7 +276,7 @@ let handleLoginForm = (evt) => {
                     turnToBackCard(updatedAnswer.card)   
                 })
             })
-            
+
             let turnToBackCard = (updatedAnswer) => {
                 backDiv.innerHTML = ""
                 // let backDiv = document.createElement("div")
@@ -277,6 +295,15 @@ let handleLoginForm = (evt) => {
                 nextCardButton.innerText = "Next Card"
                 backDiv.append(backTitle, newP, nextCardButton)
             }
+            deleteCardButton.addEventListener("click", (evt) =>{
+                fetch(`http://localhost:3000/cards/${cardInfo.id}`,{
+                    method: "DELETE"
+                    })
+                    .then(r => r.json())
+                    .then((deletedObj) => {
+                        frontDiv1.remove()
+                    })
+            })
         }
     }    
     
