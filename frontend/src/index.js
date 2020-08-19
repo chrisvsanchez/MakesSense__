@@ -100,6 +100,7 @@ let handleLoginForm = (evt) => {
     
     let logOut = () => {
         logOutNav.innerHTML= ""
+        outerCard.innerHTML = ""
         outerCardDiv.innerHTML = ""
         createLoginForm()
     }
@@ -184,16 +185,88 @@ let handleLoginForm = (evt) => {
         let createDeleteButton = document.createElement("button")
         createDeleteButton.innerText ="❌"
 
+        let addCardButton = document.createElement("button")
+        addCardButton.innerText = "Create a new Card"
+
         let openCardsButton = document.createElement("button")
         openCardsButton.innerText = "Let's get started!"
         openCardsButton.className = "deckButton"
         // backDiv.append(backTitle)
         frontDiv3.append(frontTitle, subject)
-        backDiv.append(backTitle, openCardsButton, createDeleteButton)
+        backDiv.append(backTitle, openCardsButton, createDeleteButton, addCardButton)
         frontDiv2.append(frontDiv3,backDiv )
         frontDiv1.append(frontDiv2)
         outerCardDiv.append(frontDiv1)
         
+        // clicking add card event listener
+        addCardButton.addEventListener("click", (evt) => {
+           // we already have access to a deck object
+            // createNewCardForm()
+            
+            let cardForm = document.createElement("form")
+            cardForm.classList = "card-form-new"
+             
+            
+        let newCardDiv = document.createElement("div")
+        newCardDiv.className = "new-card-div"
+    
+        let questionLabel = document.createElement("label")
+        questionLabel.htmlFor = "question"
+        questionLabel.innerText = "Question"
+    
+        let question = document.createElement("input")
+        question.type = "text"
+        question.className = "form-control"
+        question.id = "question"
+        question.placeholder = "Enter Question"
+        question.autocomplete = "off"
+    
+        let instructionLabel = document.createElement("label")
+        instructionLabel.htmlFor = "instruction"
+        instructionLabel.innerText = "Instruction"
+    
+        let instruction = document.createElement("input")
+        instruction.type = "text"
+        instruction.className = "form-control"
+        instruction.id = "instruction"
+        instruction.placeholder = "Enter Instructions"
+        instruction.autocomplete = "off"
+    
+        let newCardSubmitButton = document.createElement("button")
+        newCardSubmitButton.innerText = "Submit new Card"
+    
+            cardForm.append(questionLabel,question,instructionLabel,instruction,newCardSubmitButton)
+              
+            newCardDiv.append(cardForm)
+            outerCard.append(newCardDiv)
+    
+          cardForm.addEventListener("submit", (evt) => {
+              evt.preventDefault()
+              let userInputQuestion = evt.target.question.value
+              let userInputInstruction = evt.target.instruction.value
+              fetch('http://localhost:3000/cards', {
+                  method: "POST",
+                  headers: {
+                      "content-type": "application/json"
+                  },
+                  body: JSON.stringify({
+                      question: userInputQuestion,
+                      instruction: userInputInstruction,
+                      deck_id: deck.id,
+                      answer: ""
+    
+                  })
+              })
+              .then(res => res.json())
+              .then((newlyCreatedCard => {
+                  evt.target.reset()
+                //   WE NEED TO FINISH THIIIIS!!!!!!!!!!!!!!!!!!!!
+                //   turnToInputCard(newlyCreatedCard)
+              }))
+          })  
+        
+        })
+
         openCardsButton.addEventListener("click", (evt) => {
             deck.cards.forEach(card => {
                 turnToInputCard(card)
@@ -227,6 +300,8 @@ let handleLoginForm = (evt) => {
 
             let deleteCardButton = document.createElement("button")
             deleteCardButton.innerText ="❌"
+
+           
 
             let subject = document.createElement("h4")
             subject.innerText = cardInfo.instruction
@@ -305,6 +380,68 @@ let handleLoginForm = (evt) => {
                     })
             })
         }
+
     }    
+
+    //create a card function
+
+    // let createNewCardForm = () => {
+    //     let cardForm = document.createElement("form")
+    //     cardForm.classList = "card-form-new"
+         
+        
+    // let newCardDiv = document.createElement("div")
+    // newCardDiv.className = "new-card-div"
+
+    // let questionLabel = document.createElement("label")
+    // questionLabel.htmlFor = "question"
+    // questionLabel.innerText = "Question"
+
+    // let question = document.createElement("input")
+    // question.type = "text"
+    // question.className = "form-control"
+    // question.id = "question"
+    // question.placeholder = "Enter Question"
+    // question.autocomplete = "off"
+
+    // let instructionLabel = document.createElement("label")
+    // instructionLabel.htmlFor = "instruction"
+    // instructionLabel.innerText = "Instruction"
+
+    // let instruction = document.createElement("input")
+    // instruction.type = "text"
+    // instruction.className = "form-control"
+    // instruction.id = "instruction"
+    // instruction.placeholder = "Enter Instructions"
+    // instruction.autocomplete = "off"
+
+    // let newCardSubmitButton = document.createElement("button")
+    // newCardSubmitButton.innerText = "Submit new Card"
+
+    //     cardForm.append(questionLabel,question,instructionLabel,instruction,newCardSubmitButton)
+          
+    //     newCardDiv.append(cardForm)
+    //     outerCard.append(newCardDiv)
+
+    //   cardForm.addEventListener("submit", (evt) => {
+    //       evt.preventDefault()
+    //       
+    //       let userInputQuestion = evt.target.question.value
+    //       let userInputInstruction = evt.target.instruction.value
+    //       fetch('http://localhost:3000/cards', {
+    //           method: "POST",
+    //           headers: {
+    //               "content-type": "application/json"
+    //           },
+    //           body: JSON.stringify({
+    //               question: userInputQuestion,
+    //               instruction: userInputInstruction,
+    //               deck_id: 
+
+    //           })
+    //       })
+    //       .then(res => res.json())
+    //   })  
+    //  }
     
     createLoginForm()
