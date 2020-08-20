@@ -13,6 +13,7 @@ let createLoginForm = () => {
     //  outerCardDiv.innerHTML = ""
     let loginForm = document.createElement("form")
     loginForm.className = 'center'
+    loginForm.style.backgroundColor = "#f6f3e4"
 
     let usernameDiv = document.createElement("div")
     usernameDiv.className = "form-group"
@@ -96,10 +97,13 @@ let handleLoginForm = (evt) => {
         })
         createDeckButton.addEventListener("click", (evt) => {
             createNewForm()
+
         })
+
     }
     
     let logOut = () => {
+        createDeckForm.innerHTML= ""
         logOutNav.innerHTML= ""
         outerCard.innerHTML = ""
         outerCardDiv.innerHTML = ""
@@ -107,16 +111,25 @@ let handleLoginForm = (evt) => {
     }
     
     let createNewForm = () => {
+        let createDeckFormDiv = document.createElement("div")
+        createDeckFormDiv.className = 'coral'
+        
         let createBlankForm = document.createElement("form")
         createBlankForm.className = "createBlankForm"
-        
+        let deckTitleLabel = document.createElement("label")
+        deckTitleLabel.innerText = "Title:"
+        deckTitleLabel.style.color = "white"
         let deckTitle = document.createElement("input")
+        
         deckTitle.type = "text"
         deckTitle.className = "form-control"
         deckTitle.id = "deckTitleInput"
         deckTitle.placeholder = "Enter Title"
         deckTitle.autocomplete = "off"
         
+        let deckSubjectLabel = document.createElement("label")
+        deckSubjectLabel.innerText = "Subject:"
+        deckSubjectLabel.style.color = "white"
         let deckSubject = document.createElement("input")
         deckSubject.type = "text"
         deckSubject.className = "form-control"
@@ -128,8 +141,10 @@ let handleLoginForm = (evt) => {
         submitDeckButton.className = "btn btn-danger"
         submitDeckButton.innerText = "Submit a Deck"
         
-        createBlankForm.append(deckTitle,deckSubject,submitDeckButton)
-        createDeckForm.append(createBlankForm)
+        createBlankForm.append(deckTitleLabel,deckTitle,deckSubjectLabel,deckSubject,submitDeckButton)
+        createDeckFormDiv.append(createBlankForm)
+        createDeckForm.append(createDeckFormDiv)
+
         
         createBlankForm.addEventListener("submit", (evt)=> {
             evt.preventDefault()
@@ -204,6 +219,7 @@ let handleLoginForm = (evt) => {
            // we already have access to a deck object
             // createNewCardForm()
             
+            
             let cardForm = document.createElement("form")
             cardForm.classList = "card-form-new"
              
@@ -234,7 +250,7 @@ let handleLoginForm = (evt) => {
         instruction.autocomplete = "off"
     
         let newCardSubmitButton = document.createElement("button")
-        newCardSubmitButton.innerText = "Submit new Card"
+        newCardSubmitButton.innerText = "Submit New Card"
     
             cardForm.append(questionLabel,question,instructionLabel,instruction,newCardSubmitButton)
               

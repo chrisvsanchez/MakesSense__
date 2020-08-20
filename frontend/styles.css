@@ -40,6 +40,8 @@
     font-family: 'Roboto', sans-serif;
     border-radius: 8px;
     letter-spacing: 0.05em;
+   
+   
   }
   
   /* Style the front side */
@@ -76,13 +78,7 @@
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 
   }
-  .card-outer {
-    display:flex;
-    flex-direction: column;
-    /* align-content: center;
-    justify-content: space-evenly; */
-    /* flex-flow: column wrap; */
-  }
+ 
   /* This is for input card that belong to deck chosen */
   .card-box {
     background-color: transparent;
@@ -90,8 +86,11 @@
     height: 300px;
     border: 1px solid #f1f1f1;
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
-    justify-content: center;
-    flex-flow: column wrap;
+    /* display: flex; */
+    margin-left: auto;
+    margin-right: auto;
+    /* justify-content: center;
+    flex-flow: column wrap; */
   }
   
   /* This container is needed to position the front and back side */
@@ -120,6 +119,7 @@
     font-family: 'Roboto', sans-serif;
     border-radius: 8px;
     letter-spacing: 0.05em;
+    justify-content: center;
   }
   
   /* Style the front side */
@@ -184,5 +184,59 @@ height: 40px;
   margin-right: auto;
 
 
+
+}
+/* Principle section */
+.box1 {
+  float: left;
+  width:100%;
+  margin-left: 10px;
+  margin-top: 10px;
+  padding: 5px;
+  
+
+}
+
+.box2 {
+  float: left;
+  width: 100%;
+  margin-left: 10px;
+  margin-top: 10px;
+  padding: 5px;
+  
+  
+}
+
+.principle {
+  display:flex;
+  justify-content: space-evenly;
+  padding-bottom: 45px;
+}
+
+.core {
+  text-align: center;
+}
+
+
+.outer {
+  padding: 40px;
+  background-color: #f6f3e4;
+  display:flex;
+}
+
+.card-outer {
+  background-color: #f6f3e4;
+}
+
+/* CENTERING FORM TO CREATE DECK */
+.create-deck-form {
+  width: 40%;
+  margin-left: 30%;
+  text-align: center;
+  padding: 22px;
+}
+
+.coral {
+  background-color: #ef8a8a; 
 
 }
