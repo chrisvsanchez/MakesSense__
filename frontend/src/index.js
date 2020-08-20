@@ -251,15 +251,14 @@ let handleLoginForm = (evt) => {
                       instruction: userInputInstruction,
                       deck_id: deck.id,
                       answer: ""
-    
                   })
               })
               .then(res => res.json())
-              .then((newlyCreatedCard => {
+              .then((newlyCreatedCard) => {
                   evt.target.reset()
                 //   WE NEED TO FINISH THIIIIS!!!!!!!!!!!!!!!!!!!!
                 //   turnToInputCard(newlyCreatedCard)
-              }))
+              })
           })  
         
         })
@@ -270,7 +269,6 @@ let handleLoginForm = (evt) => {
             });
         })
             createDeleteButton.addEventListener("click", () => {
-                console.log(deck.id)
                 fetch(`http://localhost:3000/decks/${deck.id}`,{
                     method: "DELETE"
                     })
@@ -297,8 +295,6 @@ let handleLoginForm = (evt) => {
 
             let deleteCardButton = document.createElement("button")
             deleteCardButton.innerText ="❌"
-
-           
 
             let subject = document.createElement("h4")
             subject.innerText = cardInfo.instruction
@@ -345,7 +341,12 @@ let handleLoginForm = (evt) => {
                     })
                 }).then(r => r.json())
                 .then((updatedAnswer) =>{
-                    turnToBackCard(updatedAnswer.card)   
+                    
+                    turnToBackCard(updatedAnswer.card)          
+                    let backendResponse = document.createElement("h2")
+                    backendResponse.innerText = updatedAnswer.message  
+                    backendResponse.style.color = "red"
+                    backDiv.append(backendResponse)
                 })
             })
 
