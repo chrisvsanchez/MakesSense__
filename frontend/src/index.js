@@ -6,6 +6,8 @@ let loginFormDiv = document.querySelector(".login-form")
 let logOutNav = document.querySelector(".logout")
 let createDeckForm = document.querySelector(".create-deck-form")
 let currentUser = 0
+let headerClear = document.querySelector("header")
+let banner = document.querySelector(".banner")
 // Login Form
 let createLoginForm = () => {
     //  outerCardDiv.innerHTML = ""
@@ -55,6 +57,8 @@ let handleLoginForm = (evt) => {
     .then(res => res.json())
     .then((response)=> {
         if (response.id) {
+            banner.innerHTML = ""
+            
              currentUser = response.id
             outerCardDiv.innerHTML = ""
             setSideBar(response)
@@ -180,7 +184,7 @@ let handleLoginForm = (evt) => {
         backTitle.innerText = "Additional Info"
         
         let createDeleteButton = document.createElement("button")
-        createDeleteButton.innerText ="❌"
+        createDeleteButton.className = "delete-button1"
 
         let addCardButton = document.createElement("button")
         addCardButton.innerText = "Create a new Card"
@@ -294,7 +298,9 @@ let handleLoginForm = (evt) => {
             frontTitle.innerText = cardInfo.question
 
             let deleteCardButton = document.createElement("button")
-            deleteCardButton.innerText ="❌"
+            deleteCardButton.className = "delete-button"
+            // deleteCardButton.innerText ="delete"
+
 
             let subject = document.createElement("h4")
             subject.innerText = cardInfo.instruction
@@ -310,7 +316,7 @@ let handleLoginForm = (evt) => {
             let inputForm = document.createElement("form")
             inputForm.innerHTML = `
             <textarea class="textInput" rows="6" cols="60" name="answer" id="answerInput">
-            Enter text here...</textarea><br>
+        Enter answer here...</textarea><br>
             <input type="submit" class="submitButton" value="Submit">`
             
             let backTitle = document.createElement("h2")
