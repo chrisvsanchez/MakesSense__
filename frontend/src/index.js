@@ -33,7 +33,8 @@ let createLoginForm = () => {
 
     let submitButton = document.createElement("button")
     submitButton.type = "Submit"
-    submitButton.className = "btn-btn-primary"
+    submitButton.className = "submitButton"
+    submitButton.style.color = "white"
     submitButton.innerText = "Login"
     
     loginForm.append(usernameDiv,submitButton)
@@ -197,19 +198,26 @@ let handleLoginForm = (evt) => {
         
         let backTitle = document.createElement("h2")
         backTitle.innerText = "Additional Info"
-        
+
         let createDeleteButton = document.createElement("button")
         createDeleteButton.className = "delete-button1"
-
+        
+        let newDeleteDiv = document.createElement("div")
+        newDeleteDiv.className = "garbage"
+        
+        
         let addCardButton = document.createElement("button")
+        addCardButton.className = "create"
         addCardButton.innerText = "Create a new Card"
-
+        
         let openCardsButton = document.createElement("button")
         openCardsButton.innerText = "Let's get started!"
-        openCardsButton.className = "deckButton"
+        openCardsButton.className ="deckButton"
+        // openCardsButton.className = "deckButton"
+        newDeleteDiv.append(createDeleteButton,addCardButton,openCardsButton)
         // backDiv.append(backTitle)
         frontDiv3.append(frontTitle, subject)
-        backDiv.append(backTitle, openCardsButton, createDeleteButton, addCardButton)
+        backDiv.append(backTitle, newDeleteDiv)
         frontDiv2.append(frontDiv3,backDiv )
         frontDiv1.append(frontDiv2)
         outerCardDiv.append(frontDiv1)
@@ -251,7 +259,8 @@ let handleLoginForm = (evt) => {
     
         let newCardSubmitButton = document.createElement("button")
         newCardSubmitButton.innerText = "Submit New Card"
-    
+        newCardSubmitButton.className = "btn btn-danger"
+    // right here K
             cardForm.append(questionLabel,question,instructionLabel,instruction,newCardSubmitButton)
               
             newCardDiv.append(cardForm)
@@ -383,7 +392,7 @@ let handleLoginForm = (evt) => {
                 let newP = document.createElement("p")
                 newP.innerText = updatedAnswer.answer
                 newP.style.fontSize = "18px"
-                newP.style.color = "#00c2cb"
+                newP.style.color = "white"
                 
                 let nextCardButton = document.createElement("button")
                 nextCardButton.className = "nextCardButton"
