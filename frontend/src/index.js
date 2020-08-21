@@ -79,7 +79,7 @@ let handleLoginForm = (evt) => {
         let logOutDiv = document.createElement("div")
         let userUsername = document.createElement("p")
         userUsername.className = "font-weight-bold text-center"
-        userUsername.innerText = `Logged in as ${user.username}`
+        userUsername.innerText = `Logged in as ${user.name}`
         
         let logOutButton = document.createElement("button")
         logOutButton.className = "btn btn-danger"
@@ -90,7 +90,12 @@ let handleLoginForm = (evt) => {
         createDeckButton.className = "btn btn-danger"
         createDeckButton.innerText = "Create a Deck"
 
-        logOutDiv.append(userUsername, logOutButton, createDeckButton)
+        let checkoutAllDecks = document.createElement("button")
+       checkoutAllDecks.className = "btn btn-danger"
+       checkoutAllDecks.innerText = "All My Decks"
+
+        logOutDiv.append(userUsername, logOutButton, createDeckButton, checkoutAllDecks)
+
         logOutNav.append(logOutDiv)
         logOutButton.addEventListener("click", (evt) => {
             logOut()
@@ -99,9 +104,25 @@ let handleLoginForm = (evt) => {
             createNewForm()
 
         })
-
-    }
-    
+        checkoutAllDecks.addEventListener("click", (evt)=>{
+      
+        //     YOU ARE WORKING HERE DUDE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            fetch(`http://localhost:3000/users`)
+            .then(r => r.json())
+            .then((userObj)=>{
+             
+                let currentSignIn = userObj[`${currentUser-1}`]
+                logOutNav.innerHTML = ""
+                outerCard.innerHTML = ""
+                outerCardDiv.innerHTML = ""
+                setSideBar(currentSignIn)
+                currentSignIn.decks.forEach(deck => {
+                turnToDeck(deck)
+                    })
+            
+        })
+    })
+}
     let logOut = () => {
         createDeckForm.innerHTML= ""
         logOutNav.innerHTML= ""
@@ -150,7 +171,7 @@ let handleLoginForm = (evt) => {
             evt.preventDefault()
             let userSubject = evt.target.deckSubjectInput.value
             let userTitle = evt.target.deckTitleInput.value
-            console.log(currentUser)
+         
             fetch('http://localhost:3000/decks', {
                 method: "POST",
                 headers: {
@@ -232,25 +253,25 @@ let handleLoginForm = (evt) => {
         questionLabel.innerText = "Question"
     
         let question = document.createElement("input")
-        question.type = "text"
-        question.className = "form-control"
-        question.id = "question"
-        question.placeholder = "Enter Question"
-        question.autocomplete = "off"
+            question.type = "text"
+            question.className = "form-control"
+            question.id = "question"
+            question.placeholder = "Enter Question"
+            question.autocomplete = "off"
     
         let instructionLabel = document.createElement("label")
-        instructionLabel.htmlFor = "instruction"
-        instructionLabel.innerText = "Instruction"
-    
+            instructionLabel.htmlFor = "instruction"
+            instructionLabel.innerText = "Instruction"
+        
         let instruction = document.createElement("input")
-        instruction.type = "text"
-        instruction.className = "form-control"
-        instruction.id = "instruction"
-        instruction.placeholder = "Enter Instructions"
-        instruction.autocomplete = "off"
+            instruction.type = "text"
+            instruction.className = "form-control"
+            instruction.id = "instruction"
+            instruction.placeholder = "Enter Instructions"
+            instruction.autocomplete = "off"
     
         let newCardSubmitButton = document.createElement("button")
-        newCardSubmitButton.innerText = "Submit New Card"
+            newCardSubmitButton.innerText = "Submit New Card"
     
             cardForm.append(questionLabel,question,instructionLabel,instruction,newCardSubmitButton)
               
