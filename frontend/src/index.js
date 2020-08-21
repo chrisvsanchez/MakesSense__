@@ -169,6 +169,7 @@ let handleLoginForm = (evt) => {
 
         
         createBlankForm.addEventListener("submit", (evt)=> {
+          createDeckFormDiv.innerHTML = ""
             evt.preventDefault()
             let userSubject = evt.target.deckSubjectInput.value
             let userTitle = evt.target.deckTitleInput.value
@@ -288,6 +289,7 @@ let handleLoginForm = (evt) => {
             outerCard.append(newCardDiv)
     
           cardForm.addEventListener("submit", (evt) => {
+              
               evt.preventDefault()
               let userInputQuestion = evt.target.question.value
               let userInputInstruction = evt.target.instruction.value
@@ -314,6 +316,7 @@ let handleLoginForm = (evt) => {
         })
 
         openCardsButton.addEventListener("click", (evt) => {
+            // 2createDeckFormDiv.innerHTML = ""
             deck.cards.forEach(card => {
                 turnToInputCard(card)
             });
